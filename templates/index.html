@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insightful Psychology Professor Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      font-size: 16px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+      min-height: 100px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Morgan Freeman but if he was your psychologist</h1>
+    <form id="chatForm">
+      <textarea id="query" name="query" rows="4" placeholder="Enter your question here..."></textarea>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="loadingIndicator" class="loading-indicator" style="display: none;">Loading...</div>
+    <div id="response" class="output"></div>
+  </div>
+
+  <script>
+    document.getElementById('chatForm').addEventListener('submit', function(e) {
+      e.preventDefault();  
+      var query = document.getElementById('query').value;
+      
+      if (!query.trim()) {
+        alert("Please enter your query.");
+        return;
+      }
+      
+
+    // Show loading indicator before sending the request
+    var loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block';
+    
+      fetch('/get_response', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "query=" + encodeURIComponent(query)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response').textContent = data.response;
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById('response').textContent = "An error occurred: " + error;
+      });
+    });
+
+    // Intercept keydown on the textarea for Enter key to submit the form
+    document.getElementById('query').addEventListener('keydown', function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault(); 
+        document.querySelector("button[type='submit']").click();
+      }
+    });
+  </script>
+</body>
+</html>
