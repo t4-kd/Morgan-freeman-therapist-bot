@@ -1,4 +1,4 @@
-morganat freeman if he had a career switch to psychology
+morgan freeman if he had a career switch to psychology
 
 this is stage one please have patience 
 
